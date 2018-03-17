@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Canada</title>   
+        </head>    
+<body>
+<p id = "demo"></p>
+<script>
+    const http = new XMLHttpRequest()
+
+    http.open("GET", "https://slack.com/api/channels.history?token=xoxp-16686591585-153867665122-298622117975-6458074dde63a2aa2fc99a373173ddab&channel=" + channelVariable + "&count=1000")
+    http.send()
+    
+    http.onclick = () => document.getElementById("demo").innerHTML =(http.responseText)
+</script>
+
+</body>
+</html>

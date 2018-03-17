@@ -1,0 +1,49 @@
+<html>
+    <head>
+    SlackLinks Scanner 
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
+    </head>    
+    <body><p id = "channel"></p>
+        <p id = "demo"></p>
+        <button onclick="myFunction()">Go!</button>
+        <script>
+                  
+        var channelVariable = [
+        'C12MC1C84','C3Q5UVCCB','C2JHYB4QL','C8C81JPT9','C5Y28GVEK','C1M6JHSLR','C1EERDY02','C5DL5CTPU','C2F4C4L9K','C1DL4CSTB','C6X664W1K','C8ET6R6MN','C6LK9UZ8D','C0LVA5R9U','C25US0V1P','C12NB74SE','C6C1SB6DB','C3L017D8B','C4N5JM7DX','C59P3MPSL','C2UKGPJAZ','C6LQ9P3GB','C4LV88APN','C5QLVFQDS','C1N20HMNE','C0HNRJ0N7','C62TSM7QD','C6AV8KZJ8','C1T5VUDK9','C5K32E8SC','C3KH51HFE','C661NFSHW','C65G8042V','C2T16KMGF','C52SGAA4F','C7WGYSWLQ','C1RHVCQ4U','C5J2ZDG49','C0LD09H5Z','C20JE4607','C8G8M9X42','C8BEVCBAP','C786YND34','C19GM7HJQ','C7QGTBMRR','C0KMFLRMF','C1EDXLWBC','C5QPPPQ2V','C39E93MPC','C5N6XV11S','C2F4F2XBL','C0TCFFNLF','C612BCGBC','C2SEVM0HZ','C1FUG6TQX','C3TENCWF2','C5MUJRVP1','C85U66R3R','C0KPKSQHX','C31ENLZHS','C563RMZFE','C41DADFUJ','C5XNA21LG','C43HCDCLQ','C0HPWKVB8','C0LTSJPU6','C0GL77VA6','C17FTA1PU','C0LSG8FHA','C285S0X97','C3XQC1A73','C0LK25EFN','C0PT7GUSU','C7VQ62XAR','C55J5UWJ3','C3VSLBK0B','C3SP80CFL','C83M0T4HL','C0HQ3JY3E','C0GL70RL7','C13RKFD5X','C47ES8396','C7XU2430E','C5W1HMS7J','C7RTE3820','C8UD9CL05','C8QDPETR7'
+        ]
+        var i = 0;
+        var ts = 1516259687.000050;
+        
+            function myFunction() {
+                //prints the channel being scanned by number
+                document.getElementById("channel").innerHTML =(channelVariable[i]);
+                //URL, plus live token to loop through the channels
+              let url = 'https://slack.com/api/channels.history?token=xoxp-16686591585-153867665122-298622117975-6458074dde63a2aa2fc99a373173ddab&channel='+channelVariable[i]+'&count=1000&oldest='+ts
+              
+            
+//New from Ju66, I've never worked with Axios
+            //This fetches the information
+            axios.get(url).then(response => {
+               
+            // This is where it breaks: Is the response just deeper than anticipated? Or is something totally off?
+                let newArr = response.data.messages.filter(o => o.hasOwnProperty('attachments')); 
+                //assuming messages is 1 level deep it might not be
+                for (var j = 0; j < newArr.length; j++) {
+                    console.log(newArr[j]);
+                    }
+                 
+                //error catch
+                  }).catch(err => console.log(err));
+                  //ready for next loop
+                
+            i++
+            //Am I done?
+            if (i > channelVariable.length){
+                    document.getElementById("demo").innerHTML =("Done!");
+            }
+        };         
+        </script>
+    </body>
+</html>
