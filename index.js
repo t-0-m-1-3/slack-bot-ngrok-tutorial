@@ -16,33 +16,16 @@ require('dotenv-extended').load();
 const express = require('express');
 const request = require('request');
 const slackLinks = require('./slackLinks.json');
+//
 // Store our app's ID and Secret. These we got from Step 1.
 // For this tutorial, we'll keep your API credentials right here. But for an actual app, you'll want to  store them securely in environment variables.
 
 const clientId = process.env.Slack_ID;
 const clientSecret = process.env.Slack_Client_Secret;
-const fs = require('fs');
-const parse = require('csv-parse');
 const async = require('async');
 const inputFile= './SlackLinks - Links.csv';
-const builder = require('botbuilder');
-const connector = new builder.ConsoleConnector().listen();
-const bot = new builder.UniversalBot(connector, function (session) {
-	session.send("You said: %s", session.message.text);
-});
 // Instantiates Express and assigns our app variable to it
 const app = express();
-
-// const parser = parse({delimiter: ','}, function (err, data) {
-//   async.eachSeries(data, function (line, callback) {
-//     // do something with the line
-//     // doSomething(line).then(function() {
-//       // when processing finishes invoke the callback to move to the next one
-//       // callback();
-//     });
-//   })
-// });
-// fs.createReadStream(inputFile).pipe(parser);
 
 // Again, we define a port we want to listen to
 const PORT= process.env.PORT;
@@ -97,6 +80,6 @@ app.post('moto', function(req, res) {
 
 app.post('/search-a-link', function(req, res) {
     res.send('search-a-link path hit');
-    // res.send(slackLinks);
+    res.send(slackLinks);
     // res.send(slackLinks.slice(0,10));
 });
