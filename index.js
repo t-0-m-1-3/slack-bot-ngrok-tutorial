@@ -20,6 +20,7 @@ const slackLinks = require('./slackLinks.json');
 // Store our app's ID and Secret. These we got from Step 1.
 // For this tutorial, we'll keep your API credentials right here. But for an actual app, you'll want to  store them securely in environment variables.
 
+const TOKEN = process.env.TOKEN;
 const clientId = process.env.Slack_ID;
 const clientSecret = process.env.Slack_Client_Secret;
 const async = require('async');
@@ -86,9 +87,7 @@ var ts = 1518973307.000081;
 //            //prints the channel being scanned by number
 //            document.getElementById("channel").innerHTML =(channelName[i]);
             //URL, plus live token to loop through the channelst 
-          let url = 'htps://slack.com/api/channels.history?token=xoxp-326445177268-330104522661-331226181105-0b6c5e4b036a829dd6333ec19080d377&channel='+channelName[i]+'&count=1000&oldest='+ts
-         // xoxp-326445177268-330104522661-331226181105-0b6c5e4b036a829dd6333ec19080d377
-
+          let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
          //This fetches the information
         // axios.get(url).then(response => {
 
