@@ -5,12 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-/*
- * server.js
- * Copyright (C) 2017 t0m <t0m@asuntu>
- *
- * Distributed under terms of the MIT license.
- */
+
 // Import express and request modules
 require('dotenv-extended').load();
 const express = require('express');
@@ -36,19 +31,19 @@ const app = express();
 const PORT= process.env.PORT;
 
 // Lets start our server
-app.listen(PORT, function () {
+app.listen(PORT, () => {
     //Callback triggered when server is successfully listening. Hurray!
     console.log("We got this entry point listening on on port " + PORT);
 });
 
 
 // This route handles GET requests to our root ngrok address and responds with the same "Ngrok is working message" we used before
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     res.send('Ngrok is working! Path Hit: ' + req.url);
 });
 
 // This route handles get request to a /oauth endpoint. We'll use this endpoint for handling the logic of the Slack oAuth process behind our app.
-app.get('/oauth', function(req, res) {
+app.get('/oauth', (req, res) => {
     // When a user authorizes an app, a code query parameter is passed on the oAuth endpoint. If that code is not there, we respond with an error message
     if (!req.query.code) {
         res.status(500);
@@ -63,7 +58,7 @@ app.get('/oauth', function(req, res) {
             qs: {code: req.query.code, client_id: clientId, client_secret: clientSecret}, //Query string data
             method: 'GET', //Specify the method
 
-        }, function (error, response, body) {
+        }, (error, response, body) => {
             if (error) {
                 console.log(error);
             } else {
@@ -75,68 +70,63 @@ app.get('/oauth', function(req, res) {
 });
 
 // Route the endpoint that our slash command will point to and send back a simple response to indicate that ngrok is working
-app.post('/command', function(req, res) {
+app.post('/command', (req, res) => {
     res.send('WE GOT THIS! EXCESS MOTIVATION LEVELS++');
 });
 
-app.post('moto', function(req, res) {
+app.post('/moto', (req, res) => {
     res.send('Moti moti Gotta lotta motivation Dedi Dedi Gotta Lotta Dedication');
 });
-var channelName = ['bootcamp', 'general', 'random']
-var i = 0;
-var ts = 1518973307.000081;
+const channelName = ['bootcamp', 'general', 'random']
+let i = 0;
+let ts = 1518973307.000081;
 
-//function myFunction() {
-//            var lToScreen=[];
-//            //prints the channel being scanned by number
-//            document.getElementById("channel").innerHTML =(channelName[i]);
-            //URL, plus live token to loop through the channelst 
+const myFunction = () => {
+           let lToScreen=[];
+           //prints the channel being scanned by number
+           // document.getElementById("channel").innerHTML =(channelName[i]);
+            // URL, plus live token to loop through the channelst 
           let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
          //This fetches the information
-        // axios.get(url).then(response => {
+        axios.get(url).then(response => {
 
             // Sorting for attachments
-            //let newArr = response.data.messages.filter(o => o.hasOwnProperty('attachments'));
-            //for (var j = 0; j < newArr.length; j++) {
-            //    const newLink = {
-            //    link: newArr[j]["attachments"][0]["title_link"],
-            //    title: newArr[j]["attachments"][0]["title"]
-            //  }
-            //  // if (newLink.link) { // sometimes the links are "undefined", we dont wanna show that
-            //  //   lToScreen.push(newLink);
-            //  //   const li = document.createElement("LI")
-            //  //   li.appendChild(document.createTextNode(newLink.link + ' : ' + newLink.title))
-            //  //   document.getElementById("linkList").appendChild(li)
-            //  }
-            //}
+            let newArr = response.data.messages.filter(o => o.hasOwnProperty('attachments'));
+            for (let j = 0; j < newArr.length; j++) {
+               const newLink = {
+               link: newArr[j]["attachments"][0]["title_link"],
+               title: newArr[j]["attachments"][0]["title"]
+             }
+             if (newLink.link) { // sometimes the links are "undefined", we dont wanna show that
+               lToScreen.push(newLink);
+               // const li = document.createElement("LI")
+               // li.appendChild(document.createTextNode(newLink.link + ' : ' + newLink.title))
+               // document.getElementById("linkList").appendChild(li)
+               newLink
+             }
+            }
 
           ////error catch
-            //// }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
             ////ready for next loop
             //i++
         ////Am I done?
         //// if (i > channelName.length){
         ////         document.getElementById("channel").innerHTML =("Done!");
             //// }
-        //// };
-        var m = new Map([ slackLinks ])
+        };
 app.post('/search-a-link', function(req, res) {
-
-    // res.send('search-a-link path hit')
+    res.send('search-a-link path hit')
     // res.send(slackLinks);
     // res.send(slackLinks.slice(0,10));
     //Search.FianAll()
     // .then(links => {
-    // console.log('entering the link ssearch dotTehn block, my params are: ', req.params)
+    console.log('entering the link ssearch code block, my params are: ', req.params)
     // res.send(req.params)
     // })
     // .catch(err => {
-    // res.status(3400).json(err)
+    // res.status(3400).json(errp)
     // })
-    // };
-    // res.send( slackLinks.forEach(function(value, key) {
-    //     console.log(key + '  &  ' + value);
-    // });
 });
 
 
