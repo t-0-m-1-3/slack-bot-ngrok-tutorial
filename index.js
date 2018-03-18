@@ -77,7 +77,45 @@ app.post('/command', function(req, res) {
 app.post('moto', function(req, res) {
     res.send('Moti moti Gotta lotta motivation Dedi Dedi Gotta Lotta Dedication');
 });
+var channelName = ['bootcamp', 'general', 'random']
+var i = 0;
+var ts = 1518973307.000081;
 
+//function myFunction() {
+//            var lToScreen=[];
+//            //prints the channel being scanned by number
+//            document.getElementById("channel").innerHTML =(channelName[i]);
+            //URL, plus live token to loop through the channelst 
+          let url = 'htps://slack.com/api/channels.history?token=xoxp-326445177268-330104522661-331226181105-0b6c5e4b036a829dd6333ec19080d377&channel='+channelName[i]+'&count=1000&oldest='+ts
+         // xoxp-326445177268-330104522661-331226181105-0b6c5e4b036a829dd6333ec19080d377
+
+         //This fetches the information
+        // axios.get(url).then(response => {
+
+            // Sorting for attachments
+            //let newArr = response.data.messages.filter(o => o.hasOwnProperty('attachments'));
+            //for (var j = 0; j < newArr.length; j++) {
+            //    const newLink = {
+            //    link: newArr[j]["attachments"][0]["title_link"],
+            //    title: newArr[j]["attachments"][0]["title"]
+            //  }
+            //  // if (newLink.link) { // sometimes the links are "undefined", we dont wanna show that
+            //  //   lToScreen.push(newLink);
+            //  //   const li = document.createElement("LI")
+            //  //   li.appendChild(document.createTextNode(newLink.link + ' : ' + newLink.title))
+            //  //   document.getElementById("linkList").appendChild(li)
+            //  }
+            //}
+
+          ////error catch
+            //// }).catch(err => console.log(err));
+            ////ready for next loop
+            //i++
+        ////Am I done?
+        //// if (i > channelName.length){
+        ////         document.getElementById("channel").innerHTML =("Done!");
+            //// }
+        //// };
 app.post('/search-a-link', function(req, res) {
     res.send('search-a-link path hit');
     res.send(slackLinks);
