@@ -15,6 +15,10 @@
 require('dotenv-extended').load();
 const express = require('express');
 const request = require('request');
+const bodyParser = require('body-parser');
+const slackEventsAPI = require('@slack/events-api');
+const slackInteractiveMessages = require('@slack/interactive-messages');
+const cloneDeep = require('lodash.clonedeep');
 const slackLinks = require('./slackLinks.json');
 //
 // Store our app's ID and Secret. These we got from Step 1.
@@ -115,8 +119,24 @@ var ts = 1518973307.000081;
         ////         document.getElementById("channel").innerHTML =("Done!");
             //// }
         //// };
+        var m = new Map([ slackLinks ])
 app.post('/search-a-link', function(req, res) {
-    res.send('search-a-link path hit');
-    res.send(slackLinks);
+
+    // res.send('search-a-link path hit')
+    // res.send(slackLinks);
     // res.send(slackLinks.slice(0,10));
+    //Search.FianAll()
+    // .then(links => {
+    // console.log('entering the link ssearch dotTehn block, my params are: ', req.params)
+    // res.send(req.params)
+    // })
+    // .catch(err => {
+    // res.status(3400).json(err)
+    // })
+    // };
+    // res.send( slackLinks.forEach(function(value, key) {
+    //     console.log(key + '  &  ' + value);
+    // });
 });
+
+
