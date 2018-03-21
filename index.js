@@ -76,9 +76,11 @@ app.get('/oauth', (req, res) => {
 });
 
 // Route the endpoint that our slash command will point to and send back a simple response to indicate that ngrok is working
-app.post('/command', (req, res) => {
-    res.send('WE GOT THIS! EXCESS MOTIVATION LEVELS++');
-});
+const linksRouter = require('./routes/links-routes');
+app.use('/command,', linksRouter);
+// app.post('/command', (req, res) => {
+//     res.send('WE GOT THIS! EXCESS MOTIVATION LEVELS++');
+// });
 
 app.post('/moto', (req, res) => {
     res.send('Moti moti Gotta lotta motivation Dedi Dedi Gotta Lotta Dedication');
@@ -95,16 +97,18 @@ app.post('/search-a-link', function(req, res) {
     const linkSearch = () => {
         const channelName = ['bootcamp', 'general', 'random']
         let ts = 1518973307.000081;
-         let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
        try {
+             // res.send('maybe this fucking works again')
+             console.log('what the fuck am i doing with life')
            for (var i = 0, len = channelName.length; i < len; i++) {
-        res.send('search-a-link path hit')
+         let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
+        res.send('search-a-link path hit', url)
             if (slackLinks.Name !== 'fake') {
                   res.send(slackLinks.url[i])
-               // } else {
-               //    res.send('this might not be the channelName we are looking for')
-               //    console.log(channelName[i])
-               //    console.log('link search function block hit');
+               } else {
+                  res.send('this might not be the channelName we are looking for')
+                  console.log(channelName[i])
+                  console.log('link search function block hit');
                 console.log('entering the link search code block, my req  params are: ', req.params)
                 console.log('entering the link search code block, my res params are: ', res.params)
                }

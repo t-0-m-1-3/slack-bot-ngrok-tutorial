@@ -12,5 +12,7 @@ linksRouter.get('/search-a-link', linksController.index);
 linksRouter.get('/:id', linksController.show);
 linksRouter.post('new', linksController.create);
 linksRouter.delete(':id', linksController.destroy);
+linksRouter.post('/command', linksController.ngrok);
+// linksRouter.post('/moto', linksController.moto);
 
 module.exports = linksRouter;

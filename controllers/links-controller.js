@@ -9,8 +9,9 @@
 const linksController = {};
 //
 //index root route
+
 linksController.index = (req,res) => {
-      LInk.findAll()
+      Link.findAll()
            .then(links => {
            console.log('inside index controller vars next: ', req.params, links)
            res.render('links/links', {
@@ -42,8 +43,8 @@ linksController.update = (req,res) => {
   console.log(req.params)
   console.log('about to go into link.update() '+ req.params.id);
       Link.update({
-        url: req.body.url
-        name: req.body.name,
+        url: req.body.url,
+        name: req.body.name
         },
              req.params.id)
           .then(() => {
@@ -81,5 +82,8 @@ linksController.destroy = (req,res) => {
             });
 };
 
-
+linksController.ngrok = (req, res) => {
+    res.send('We can do this!! Increment MoTo Levels MoTo++');
+    console.log('the controller was hit  for ngrok');
+}
 module.exports = linksController;
