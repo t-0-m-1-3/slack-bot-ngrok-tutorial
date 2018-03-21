@@ -11,6 +11,9 @@ require('dotenv-extended').load();
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
+//
+const pgp = require('pg-promise');
 const slackEventsAPI = require('@slack/events-api');
 const slackInteractiveMessages = require('@slack/interactive-messages');
 const cloneDeep = require('lodash.clonedeep');
@@ -23,12 +26,15 @@ const TOKEN = process.env.TOKEN;
 const clientId = process.env.Slack_ID;
 const clientSecret = process.env.Slack_Client_Secret;
 const async = require('async');
-const inputFile= './SlackLinks - Links.csv';
 // Instantiates Express and assigns our app variable to it
 const app = express();
 
 // Again, we define a port we want to listen to
 const PORT= process.env.PORT;
+
+//middleware
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Lets start our server
 app.listen(PORT, () => {
@@ -76,57 +82,43 @@ app.post('/command', (req, res) => {
 
 app.post('/moto', (req, res) => {
     res.send('Moti moti Gotta lotta motivation Dedi Dedi Gotta Lotta Dedication');
+    console.log('moto path hit');
 });
-const channelName = ['bootcamp', 'general', 'random']
-let i = 0;
-let ts = 1518973307.000081;
 
-const myFunction = () => {
-           let lToScreen=[];
-           //prints the channel being scanned by number
-           // document.getElementById("channel").innerHTML =(channelName[i]);
-            // URL, plus live token to loop through the channelst 
-          let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
-         //This fetches the information
-        axios.get(url).then(response => {
 
-            // Sorting for attachments
-            let newArr = response.data.messages.filter(o => o.hasOwnProperty('attachments'));
-            for (let j = 0; j < newArr.length; j++) {
-               const newLink = {
-               link: newArr[j]["attachments"][0]["title_link"],
-               title: newArr[j]["attachments"][0]["title"]
-             }
-             if (newLink.link) { // sometimes the links are "undefined", we dont wanna show that
-               lToScreen.push(newLink);
-               // const li = document.createElement("LI")
-               // li.appendChild(document.createTextNode(newLink.link + ' : ' + newLink.title))
-               // document.getElementById("linkList").appendChild(li)
-               newLink
-             }
-            }
 
-          ////error catch
-            }).catch(err => console.log(err));
-            ////ready for next loop
-            //i++
-        ////Am I done?
-        //// if (i > channelName.length){
-        ////         document.getElementById("channel").innerHTML =("Done!");
-            //// }
-        };
 app.post('/search-a-link', function(req, res) {
-    res.send('search-a-link path hit')
-    // res.send(slackLinks);
-    // res.send(slackLinks.slice(0,10));
-    //Search.FianAll()
-    // .then(links => {
-    console.log('entering the link ssearch code block, my params are: ', req.params)
-    // res.send(req.params)
-    // })
-    // .catch(err => {
-    // res.status(3400).json(errp)
-    // })
-});
+    //
+    //
+    console.log('entering the link search function block, vars declared');
 
+    const linkSearch = () => {
+        const channelName = ['bootcamp', 'general', 'random']
+        let ts = 1518973307.000081;
+         let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
+       try {
+           for (var i = 0, len = channelName.length; i < len; i++) {
+        res.send('search-a-link path hit')
+            if (slackLinks.Name !== 'fake') {
+                  res.send(slackLinks.url[i])
+               // } else {
+               //    res.send('this might not be the channelName we are looking for')
+               //    console.log(channelName[i])
+               //    console.log('link search function block hit');
+                console.log('entering the link search code block, my req  params are: ', req.params)
+                console.log('entering the link search code block, my res params are: ', res.params)
+               }
+           }
+       } catch (e) {
+           /* handle error */
+           console.log(e)
+           res.send(e)
+           console.log('why is the for loop not running');
+       } finally {
+           /* be executed regardless of the try / catch result*/
+           console.log('finally code block');
+       }
+    }
+    linkSearch();
+});
 
