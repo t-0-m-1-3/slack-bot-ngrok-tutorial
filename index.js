@@ -34,7 +34,7 @@ const PORT= process.env.PORT;
 
 //middleware
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // Lets start our server
 app.listen(PORT, () => {
@@ -95,15 +95,15 @@ app.post('/search-a-link', function(req, res) {
     console.log('entering the link search function block, vars declared');
 
     const linkSearch = () => {
-        const channelName = ['bootcamp', 'general', 'random']
+        const channelName = ['bootcamp', 'general', 'C9LHE4BL5']
         let ts = 1518973307.000081;
        try {
              // res.send('maybe this fucking works again')
              console.log('what the fuck am i doing with life')
            for (var i = 0, len = channelName.length; i < len; i++) {
          let url = 'htps://slack.com/api/channels.history?token='+TOKEN+'&channel='+channelName[i]+'&count=1000&oldest='+ts
-        res.send('search-a-link path hit', url)
-            if (slackLinks.Name !== 'fake') {
+        res.status(status).send('search-a-link path hit', url)
+            if (slackLinks.Name === 'C9LHE4BL5') {
                   res.send(slackLinks.url[i])
                } else {
                   res.send('this might not be the channelName we are looking for')
@@ -126,3 +126,17 @@ app.post('/search-a-link', function(req, res) {
     linkSearch();
 });
 
+// Initialize using verification token from environment variables
+const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+// // Mount the event handler on a route
+// // NOTE: you must mount to a path that matches the Request URL that was configured earlier
+ app.use('/slack/events', slackEvents.expressMiddleware());
+
+// // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
+slackEvents.on('message', (event)=> {
+  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
+  });
+//
+//   // Handle errors (see `errorCodes` export)
+  slackEvents.on('error', console.error);
